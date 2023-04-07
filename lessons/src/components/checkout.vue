@@ -6,7 +6,7 @@
             <figure>
                 <img width="500" height="400" v-bind:src="subject.image" />
             </figure>
-            <p>Subject: {{ subject.title }}</p>
+            <p>Subject: {{ subject.topic }}</p>
             <p>Location: {{ subject.location }}</p>
             <p>Price: {{ subject.price }}</p>
             <button @click="removeSubject(index)">remove</button>
@@ -16,7 +16,7 @@
             <input v-model="name" />
             <strong> Address </strong>
             <input v-model="address" />
-            <button> Submit </button>
+            <button @click="submitForm"> Submit </button>
         </p>
     </div>
 </template>
@@ -34,6 +34,9 @@ export default {
     methods: {
         removeSubject(index) {
             this.$emit("removeSubject", index)
+        },
+        submitForm() {
+            alert("Order Submitted!")
         }
     }
 }

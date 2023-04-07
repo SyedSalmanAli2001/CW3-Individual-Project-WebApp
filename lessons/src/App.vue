@@ -26,98 +26,7 @@ export default {
       sitename: "After School Lessons",
       cart: [],
       showCheckout: false,
-      subjects: [
-        {
-          id: 1001,
-          title: "Mathematics",
-          location: "Dubai",
-          price: '40',
-          image: 'mathematics.jpeg',
-          spaces: 5,
-
-        },
-        {
-          id: 1002,
-          title: "History",
-          location: "Dubai",
-          price: '50',
-          image: 'history.jpeg',
-          spaces: 5,
-
-        },
-        {
-          id: 1003,
-          title: "Physics",
-          location: "Sharjah",
-          price: '30',
-          image: 'physics.jpeg',
-          spaces: 5,
-
-        },
-        {
-          id: 1004,
-          title: "Information Technology",
-          location: "Ras Al-Khaima",
-          price: '55',
-          image: 'it.jpeg',
-          spaces: 5,
-
-        },
-        {
-          id: 1005,
-          title: "Biology",
-          location: "Dubai",
-          price: '45',
-          image: 'biology.jpeg',
-          spaces: 5,
-
-        },
-        {
-          id: 1006,
-          title: "Chemistry",
-          location: "Al Ain",
-          price: '35',
-          image: 'chemistry.jpeg',
-          spaces: 5,
-
-        },
-        {
-          id: 1007,
-          title: "English Language",
-          location: "Dubai",
-          price: '60',
-          image: 'english.jpeg',
-          spaces: 5,
-
-        },
-        {
-          id: 1008,
-          title: "Geography",
-          location: "Abu Dhabi",
-          price: '25',
-          image: 'geography.jpeg',
-          spaces: 5,
-
-        },
-        {
-          id: 1009,
-          title: "Drama",
-          location: "Sharjah",
-          price: '40',
-          image: 'drama.jpeg',
-          spaces: 5,
-
-        },
-        {
-          id: 1010,
-          title: "Art",
-          location: "Dubai",
-          price: '35',
-          image: 'art.webp',
-          spaces: 5,
-
-        }
-      ]
+      subjects: []
     }
   },
   computed: {
@@ -125,14 +34,22 @@ export default {
       return this.showCheckout ? "checkout" : "lessonList";
     },
   },
+  created: function () {
+    const subject = this;
+    fetch("http://localhost:3000/collection/lessons").then(function (response) {
+      response.json().then(function (json) {
+        subject.subjects = json;
+      });
+    });
+  },
   methods: {
     switchCheckout: function () {
       this.showCheckout = !this.showCheckout;
     },
     addToCart(subject) {
-      const index = this.subjects.findIndex((sub) => sub.id === subject.id);
-      if (index >= 0 && this.subjects[index].spaces > 0) {
-        this.subjects[index].spaces--;
+      const index = this.subjects.findIndex((sub) => sub._id === subject._id);
+      if (index >= 0 && this.subjects[index].space > 0) {
+        this.subjects[index].space--;
         this.cart.push(subject);
       }
     },
@@ -142,9 +59,9 @@ export default {
       this.returnSubject(subject);
     },
     returnSubject(subject) {
-      const index = this.subjects.findIndex((sub) => sub.id === subject.id);
+      const index = this.subjects.findIndex((sub) => sub._id === subject._id);
       if (index >= 0) {
-        this.subjects[index].spaces++;
+        this.subjects[index].space++;
       }
     }
   }
